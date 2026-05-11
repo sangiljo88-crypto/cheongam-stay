@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>예약하기 | 청암스테이</title>
+  <meta name="description" content="청암스테이 예약. 날짜를 선택하고 카카오톡으로 바로 문의하세요."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Noto+Sans+KR:wght@400;500;700;800;900&family=Noto+Serif+KR:wght@500;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    /* 예약 페이지 추가 스타일 */
+    .res-header {
+      margin-top: var(--nav-h);
+      padding: 40px 0 0;
+      background: var(--bg-soft);
+    }
+    .res-header-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--gutter) 32px;
+    }
+    .res-header h1 {
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: -.06em;
+      margin-bottom: 8px;
+    }
+    .res-header p { color: var(--muted); font-size: 15px; }
+
+    .res-steps {
+      display: flex;
+      gap: 0;
+      margin: 24px 0 0;
+    }
+    .res-step {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 20px 14px 0;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--muted);
+      position: relative;
+    }
+    .res-step.active { color: var(--ink); }
+    .res-step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .res-step.active .res-step-num {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+    .res-step-line {
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+      margin: 0 10px;
+    }
+
+    /* Room Selector */
+    .room-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+    .room-selector-card {
+      border: 2px solid var(--line);
+      border-radius: var(--r-lg);
+      padding: 18px;
+      cursor: pointer;
+      transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .room-selector-card:hover { border-color: var(--muted); }
+    .room-selector-card.selected { border-color: var(--ink); background: rgba(36,27,21,.03); }
+    .room-selector-card input[type="radio"] { display: none; }
+    .room-sel-img {
+      width: 70px;
+      height: 56px;
+      border-radius: var(--r-sm);
+      object-fit: cover;
+      background: var(--bg-deep);
+      flex-shrink: 0;
+    }
+    .room-sel-info { flex: 1; }
+    .room-sel-name { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+    .room-sel-meta { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    .room-sel-price { font-size: 14px; font-weight: 900; color: var(--ink); }
+    .room-sel-price small { font-size: 11px; color: var(--muted); font-weight: 500; }
+    .room-sel-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--line);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      transition: all var(--dur) var(--ease);
+    }
+    .room-selector-card.selected .room-sel-check {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #fff;
+    }
+
+    /* Package selector */
+    .pkg-selector { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+    .pkg-option {
+      border: 1.5px solid var(--line);
+      border-radius: var(--r-md);
+      padding: 14px 18px;
+      cursor: pointer;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      transition: border-color var(--dur) var(--ease);
+    }
+    .pkg-option.selected { border-color: var(--ink); background: rgba(36,27,21,.02); }
+    .pkg-option input { margin-top: 3px; accent-color: var(--ink); }
+    .pkg-opt-name { font-size: 14px; font-weight: 800; margin-bottom: 3px; }
+    .pkg-opt-desc { font-size: 12px; color: var(--muted); line-height: 1.55; margin-bottom: 6px; }
+    .pkg-opt-price { font-size: 14px; font-weight: 900; color: var(--ink); }
+
+    /* Guest Counter */
+    .guest-counter-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .guest-counter-row:last-child { border-bottom: none; }
+    .guest-type { font-size: 14px; font-weight: 700; }
+    .guest-age { font-size: 12px; color: var(--muted); }
+    .counter-btns { display: flex; align-items: center; gap: 14px; }
+    .counter-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1.5px solid var(--line);
+      background: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 300;
+      cursor: pointer;
+      transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+    }
+    .counter-btn:hover:not(:disabled) { border-color: var(--ink); }
+    .counter-btn:disabled { opacity: .3; cursor: not-allowed; }
+    .counter-num { font-size: 15px; font-weight: 800; min-width: 20px; text-align: center; }
+
+    /* Form */
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 13px; font-weight: 800; margin-bottom: 8px; color: var(--ink); }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      border: 1.5px solid var(--line);
+      border-radius: var(--r-md);
+      padding: 12px 16px;
+      font-size: 14px;
+      font-family: var(--font-ko);
+      color: var(--ink);
+      background: var(--paper);
+      transition: border-color var(--dur) var(--ease);
+      outline: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--ink); }
+    .form-textarea { resize: vertical; min-height: 100px; }
+    .form-hint { font-size: 12px; color: var(--muted); margin-top: 5px; }
+
+    @media (max-width: 768px) {
+      .room-selector-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="siteNav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">
+      <div class="nav-logo">청암스테이<span>Cheongam Stay</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">홈</a>
+      <a href="rooms.html">객실</a>
+      <a href="packages.html">패키지</a>
+      <a href="reservation.html" class="active">예약</a>
+      <a href="about.html">안내</a>
+    </div>
+    <div class="nav-actions">
+      <a href="tel:010-0000-0000" class="btn btn-outline btn-sm">📞 전화 문의</a>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="nav-drawer" id="navDrawer">
+  <a href="index.html">🏠 홈</a>
+  <a href="rooms.html">🛏️ 객실 안내</a>
+  <a href="packages.html">🥩 패키지</a>
+  <a href="reservation.html">📅 예약하기</a>
+  <a href="about.html">ℹ️ 이용 안내</a>
+  <a href="tel:010-0000-0000" class="btn btn-gold">📞 전화 문의</a>
+</div>
+
+<!-- HEADER -->
+<div class="res-header">
+  <div class="res-header-inner">
+    <div class="eyebrow">RESERVATION</div>
+    <h1>예약하기</h1>
+    <p>날짜와 객실을 선택하면 카카오톡으로 바로 문의가 연결됩니다.</p>
+
+    <div class="res-steps">
+      <div class="res-step active">
+        <div class="res-step-num">1</div>
+        <span>날짜 선택</span>
+        <div class="res-step-line"></div>
+      </div>
+      <div class="res-step active">
+        <div class="res-step-num">2</div>
+        <span>객실 & 패키지</span>
+        <div class="res-step-line"></div>
+      </div>
+      <div class="res-step active">
+        <div class="res-step-num">3</div>
+        <span>인원 & 요청사항</span>
+        <div class="res-step-line"></div>
+      </div>
+      <div class="res-step">
+        <div class="res-step-num">4</div>
+        <span>카카오 문의</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="reservation-layout">
+
+  <!-- LEFT: Calendar + Form -->
+  <div>
+
+    <!-- STEP 1: 날짜 선택 -->
+    <div class="calendar-section" id="step-date">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <h2 style="font-size:20px;font-weight:900;letter-spacing:-.04em">1. 날짜 선택</h2>
+        <span style="font-size:12px;color:var(--muted)">체크인 → 체크아웃 순으로 클릭</span>
+      </div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:20px">날짜 아래 금액은 평일 기준 1박 요금입니다.</p>
+      <div id="mainCalendar"></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px">
+        <div class="booking-date-field active">
+          <div class="booking-date-label">체크인</div>
+          <div class="booking-date-value" id="bookCheckIn">날짜 선택</div>
+        </div>
+        <div class="booking-date-field">
+          <div class="booking-date-label">체크아웃</div>
+          <div class="booking-date-value" id="bookCheckOut">날짜 선택</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: 객실 선택 -->
+    <div class="calendar-section" style="margin-top:20px" id="step-room">
+      <h2 style="font-size:20px;font-weight:900;letter-spacing:-.04em;margin-bottom:6px">2. 객실 선택</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:4px">새림 고기 한상 패키지 이용 시 숙박 요금 50% 할인</p>
+
+      <div class="room-selector-grid">
+        <label class="room-selector-card" id="sel-single">
+          <input type="radio" name="room" value="single"/>
+          <img class="room-sel-img" src="images/room-single.jpg" alt="1인실" onerror="this.style.background='var(--bg-deep)'"/>
+          <div class="room-sel-info">
+            <div class="room-sel-name">1인실</div>
+            <div class="room-sel-meta">1인 · 테라스 · 마운틴뷰</div>
+            <div class="room-sel-price">59,000원 <small>/ 박 (평일)</small></div>
+          </div>
+          <div class="room-sel-check">✓</div>
+        </label>
+
+        <label class="room-selector-card" id="sel-double">
+          <input type="radio" name="room" value="double" checked/>
+          <img class="room-sel-img" src="images/room-double.jpg" alt="2인룸" onerror="this.style.background='var(--bg-deep)'"/>
+          <div class="room-sel-info">
+            <div class="room-sel-name">2인룸 ⭐ 인기</div>
+            <div class="room-sel-meta">2인 · 더블베드 · 바베큐</div>
+            <div class="room-sel-price">99,000원 <small>/ 박</small></div>
+          </div>
+          <div class="room-sel-check">✓</div>
+        </label>
+
+        <label class="room-selector-card" id="sel-family">
+          <input type="radio" name="room" value="family"/>
+          <img class="room-sel-img" src="images/room-family.jpg" alt="패밀리룸" onerror="this.style.background='var(--bg-deep)'"/>
+          <div class="room-sel-info">
+            <div class="room-sel-name">패밀리룸 (온돌)</div>
+            <div class="room-sel-meta">3~4인 · 온돌 바닥 · 넓은 공간</div>
+            <div class="room-sel-price">169,000원 <small>/ 박</small></div>
+          </div>
+          <div class="room-sel-check">✓</div>
+        </label>
+
+        <label class="room-selector-card" id="sel-whole">
+          <input type="radio" name="room" value="whole"/>
+          <img class="room-sel-img" src="images/garden.jpg" alt="통대관" onerror="this.style.background='var(--bg-deep)'"/>
+          <div class="room-sel-info">
+            <div class="room-sel-name">통대관 (전관)</div>
+            <div class="room-sel-meta">최대 40명 · 마당 전체 · 단독 이용</div>
+            <div class="room-sel-price">1,230,000원 <small>/ 박</small></div>
+          </div>
+          <div class="room-sel-check">✓</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- STEP 3: 패키지 선택 -->
+    <div class="calendar-section" style="margin-top:20px" id="step-pkg">
+      <h2 style="font-size:20px;font-weight:900;letter-spacing:-.04em;margin-bottom:6px">3. 패키지 선택</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:4px">새림 고기 한상 선택 시 숙박 요금 50% 자동 적용</p>
+
+      <div class="pkg-selector">
+        <label class="pkg-option selected" id="pkg-meat">
+          <input type="radio" name="package" value="meat" checked/>
+          <div>
+            <div class="pkg-opt-name">🥩 새림 고기 한상 + 숙박 패키지 ⭐</div>
+            <div class="pkg-opt-desc">목살·삼겹살·한정살·갈매기살 포함. 인원 맞춤 세팅. 바베큐 기본 세팅 포함.</div>
+            <div class="pkg-opt-price">1인당 약 29,000원~ <small style="font-weight:400;color:var(--muted)">(인원·구성에 따라 상이)</small></div>
+            <div style="font-size:11px;color:#c0392b;font-weight:800;margin-top:4px">✓ 이 패키지 선택 시 숙박 50% 할인 적용</div>
+          </div>
+        </label>
+
+        <label class="pkg-option" id="pkg-bbq">
+          <input type="radio" name="package" value="bbq"/>
+          <div>
+            <div class="pkg-opt-name">🔥 바베큐 세팅만 이용</div>
+            <div class="pkg-opt-desc">외부 고기 반입 + 바베큐 공간 세팅 서비스. 숯, 그릴, 도구 제공.</div>
+            <div class="pkg-opt-price">세팅비 별도 문의</div>
+          </div>
+        </label>
+
+        <label class="pkg-option" id="pkg-stay">
+          <input type="radio" name="package" value="stay"/>
+          <div>
+            <div class="pkg-opt-name">🛏️ 숙박만 이용</div>
+            <div class="pkg-opt-desc">고기 이용 없이 숙박만 예약. 라운지, 커피·티타임 포함.</div>
+            <div class="pkg-opt-price">객실 정상가 적용</div>
+          </div>
+        </label>
+
+        <label class="pkg-option" id="pkg-lunch">
+          <input type="radio" name="package" value="lunch"/>
+          <div>
+            <div class="pkg-opt-name">🌿 점심 대관 (11:00~15:00)</div>
+            <div class="pkg-opt-desc">숙박 없이 낮 시간 마당·라운지 대관. 청암산 방문 후 단체 식사.</div>
+            <div class="pkg-opt-price">2인 30,000원 ~ 통대관 300,000원</div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- STEP 4: 인원 선택 -->
+    <div class="calendar-section" style="margin-top:20px" id="step-guests">
+      <h2 style="font-size:20px;font-weight:900;letter-spacing:-.04em;margin-bottom:16px">4. 인원 선택</h2>
+
+      <div class="guest-counter" data-min="1" data-max="40">
+        <div class="guest-counter-row">
+          <div>
+            <div class="guest-type">성인</div>
+            <div class="guest-age">만 13세 이상</div>
+          </div>
+          <div class="counter-btns">
+            <button class="counter-btn guest-minus" type="button">−</button>
+            <span class="counter-num guest-count">2</span>
+            <button class="counter-btn guest-plus" type="button">+</button>
+          </div>
+        </div>
+        <div class="guest-counter-row">
+          <div>
+            <div class="guest-type">어린이</div>
+            <div class="guest-age">만 2~12세</div>
+          </div>
+          <div class="counter-btns">
+            <button class="counter-btn" type="button" onclick="this.nextElementSibling.textContent=Math.max(0,parseInt(this.nextElementSibling.textContent)-1)">−</button>
+            <span class="counter-num">0</span>
+            <button class="counter-btn" type="button" onclick="this.previousElementSibling.textContent=Math.min(10,parseInt(this.previousElementSibling.textContent)+1)">+</button>
+          </div>
+        </div>
+        <div class="guest-counter-row">
+          <div>
+            <div class="guest-type">영아</div>
+            <div class="guest-age">만 2세 미만</div>
+          </div>
+          <div class="counter-btns">
+            <button class="counter-btn" type="button" onclick="this.nextElementSibling.textContent=Math.max(0,parseInt(this.nextElementSibling.textContent)-1)">−</button>
+            <span class="counter-num">0</span>
+            <button class="counter-btn" type="button" onclick="this.previousElementSibling.textContent=Math.min(5,parseInt(this.previousElementSibling.textContent)+1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: 요청사항 -->
+    <div class="calendar-section" style="margin-top:20px" id="step-request">
+      <h2 style="font-size:20px;font-weight:900;letter-spacing:-.04em;margin-bottom:16px">5. 요청사항 (선택)</h2>
+
+      <div class="form-group">
+        <label class="form-label">이름</label>
+        <input class="form-input" type="text" placeholder="예약자 이름" id="reqName"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">연락처</label>
+        <input class="form-input" type="tel" placeholder="010-0000-0000" id="reqPhone"/>
+        <p class="form-hint">카카오 문의 시 자동으로 포함됩니다.</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">특이사항 / 요청사항</label>
+        <textarea class="form-textarea" placeholder="예: 기념일 이용입니다. / 채식 메뉴 필요합니다. / 유아 침대 필요합니다." id="reqNote"></textarea>
+      </div>
+
+      <div class="notice-box">
+        <strong>예약 확정 안내</strong><br/>
+        카카오톡 문의 후 담당자 확인을 거쳐 예약이 확정됩니다. 예약 확정 시 계좌 정보 또는 결제 링크를 안내드립니다.
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Booking Summary Card -->
+  <div>
+    <div class="booking-card">
+      <div class="booking-card-room">
+        <img class="booking-room-img" src="images/room-double.jpg" alt="2인룸" id="bookRoomImg" onerror="this.style.background='var(--bg-deep)'"/>
+        <div class="booking-room-info">
+          <div class="booking-room-name" id="bookRoomName">2인룸</div>
+          <div class="booking-room-meta" id="bookRoomMeta">🥩 새림 고기 한상 + 숙박 패키지</div>
+        </div>
+      </div>
+
+      <div class="booking-dates">
+        <div class="booking-date-field">
+          <div class="booking-date-label">체크인</div>
+          <div class="booking-date-value" id="bookCheckIn2">날짜 선택</div>
+        </div>
+        <div class="booking-date-field">
+          <div class="booking-date-label">체크아웃</div>
+          <div class="booking-date-value" id="bookCheckOut2">날짜 선택</div>
+        </div>
+      </div>
+
+      <div class="booking-guests">
+        <div class="booking-guests-label">인원</div>
+        <div class="booking-guests-value" id="bookGuests">성인 2명</div>
+      </div>
+
+      <div class="booking-price-breakdown">
+        <div class="price-row">
+          <span class="price-label">객실 요금 (1박)</span>
+          <span class="price-value" id="bookBase">99,000원</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label" style="color:#c0392b">고기 이용 할인 (−50%)</span>
+          <span class="price-value price-discount-val" id="bookDiscount">−49,500원</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">숙박 일수</span>
+          <span class="price-value" id="bookNights">— 박</span>
+        </div>
+        <div class="price-row total">
+          <span>예상 총액 (숙박)</span>
+          <span class="price-value" id="bookTotal">—</span>
+        </div>
+        <p style="font-size:11px;color:var(--muted);margin-top:6px">* 고기 한상 금액 별도. 최종 금액은 상담 후 확정.</p>
+      </div>
+
+      <div class="booking-cta">
+        <button class="btn btn-kakao btn-lg" id="kakaoBtn" onclick="sendKakaoInquiry()">
+          💬 카카오톡으로 예약 문의
+        </button>
+        <a href="tel:010-0000-0000" class="btn btn-outline">
+          📞 전화 문의
+        </a>
+      </div>
+
+      <div style="margin-top:16px;padding:14px;background:var(--bg-soft);border-radius:var(--r-md)">
+        <p style="font-size:12px;color:var(--muted);line-height:1.6">
+          <strong style="color:var(--ink)">예약 프로세스</strong><br/>
+          문의 → 날짜 확인 → 예약 확정 → 입금 → 완료<br/>
+          평균 응답 시간 1시간 이내
+        </p>
+      </div>
+
+      <!-- 취소 정책 -->
+      <details style="margin-top:14px">
+        <summary style="font-size:13px;font-weight:700;cursor:pointer;padding:8px 0">취소/환불 정책 ▾</summary>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7;padding:10px 0">
+          · 체크인 7일 전까지: 100% 환불<br/>
+          · 체크인 3일 전까지: 50% 환불<br/>
+          · 체크인 당일 취소: 환불 불가<br/>
+          · 성수기·통대관: 별도 안내
+        </div>
+      </details>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer" style="margin-top:60px">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">청암스테이</div>
+      <p class="footer-desc">전북 군산 옥산리 · 청암산 5분 거리<br/>프라이빗 미트 스테이</p>
+      <div class="footer-contact">
+        <a href="tel:010-0000-0000">📞 010-0000-0000</a>
+        <a href="https://pf.kakao.com" target="_blank">💬 카카오톡 채널</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-heading">숙박</div>
+      <div class="footer-links">
+        <a href="rooms.html">객실 안내</a>
+        <a href="packages.html">패키지</a>
+        <a href="about.html">오시는 길</a>
+      </div>
+    </div>
+    <div></div><div></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 청암스테이 · 새림 운영</span>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  // Room selector
+  document.querySelectorAll('.room-selector-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.room-selector-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      const val = card.querySelector('input').value;
+      updateRoomSummary(val);
+    });
+  });
+  // Default select double
+  document.getElementById('sel-double')?.classList.add('selected');
+
+  // Package selector
+  document.querySelectorAll('.pkg-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.pkg-option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      updatePkgSummary(opt.querySelector('input').value);
+    });
+  });
+
+  const roomData = {
+    single:  { name: '1인실',           base: 59000,   img: 'images/room-single.jpg' },
+    double:  { name: '2인룸',            base: 99000,   img: 'images/room-double.jpg' },
+    family:  { name: '패밀리룸 (온돌)', base: 169000,  img: 'images/room-family.jpg' },
+    whole:   { name: '통대관',           base: 1230000, img: 'images/garden.jpg' },
+  };
+
+  let selectedRoom = 'double';
+  let selectedPkg  = 'meat';
+
+  function updateRoomSummary(val) {
+    selectedRoom = val;
+    const d = roomData[val];
+    document.getElementById('bookRoomName').textContent = d.name;
+    document.getElementById('bookRoomImg').src = d.img;
+    recalc();
+  }
+
+  function updatePkgSummary(val) {
+    selectedPkg = val;
+    const labels = {
+      meat:  '🥩 새림 고기 한상 + 숙박 패키지',
+      bbq:   '🔥 바베큐 세팅만 이용',
+      stay:  '🛏️ 숙박만 이용',
+      lunch: '🌿 점심 대관',
+    };
+    document.getElementById('bookRoomMeta').textContent = labels[val] || '';
+    recalc();
+  }
+
+  function recalc() {
+    const d = roomData[selectedRoom];
+    const isMeatPkg = selectedPkg === 'meat' && selectedRoom !== 'single';
+    const base = d.base;
+    const discount = isMeatPkg ? Math.round(base * 0.5) : 0;
+    const after = base - discount;
+
+    document.getElementById('bookBase').textContent = base.toLocaleString() + '원';
+    document.getElementById('bookDiscount').textContent = discount > 0 ? '−' + discount.toLocaleString() + '원' : '해당 없음';
+
+    // Nights calc
+    const ci = document.getElementById('bookCheckIn').textContent;
+    const co = document.getElementById('bookCheckOut').textContent;
+    const nights = parseInt(document.getElementById('bookNights')?.textContent) || 0;
+
+    if (nights > 0) {
+      const total = after * nights;
+      document.getElementById('bookTotal').textContent = total.toLocaleString() + '원';
+    } else {
+      document.getElementById('bookTotal').textContent = '—';
+    }
+  }
+
+  // Sync check-in/out to card
+  const origUpdateBooking = window.updateBookingSummary;
+  // Override calendar's updateBookingSummary
+  const calInterval = setInterval(() => {
+    const ci = document.getElementById('bookCheckIn');
+    const co = document.getElementById('bookCheckOut');
+    const ni = document.getElementById('bookNights');
+    if (ci && co) {
+      const ci2 = document.getElementById('bookCheckIn2');
+      const co2 = document.getElementById('bookCheckOut2');
+      if (ci2) ci2.textContent = ci.textContent;
+      if (co2) co2.textContent = co.textContent;
+    }
+    recalc();
+  }, 500);
+
+  // Kakao inquiry builder
+  function sendKakaoInquiry() {
+    const ci  = document.getElementById('bookCheckIn').textContent;
+    const co  = document.getElementById('bookCheckOut').textContent;
+    const ni  = document.getElementById('bookNights').textContent;
+    const rm  = roomData[selectedRoom]?.name || '미선택';
+    const pk  = document.getElementById('bookRoomMeta').textContent;
+    const gst = document.getElementById('bookGuests').textContent;
+    const nm  = document.getElementById('reqName')?.value || '';
+    const ph  = document.getElementById('reqPhone')?.value || '';
+    const nt  = document.getElementById('reqNote')?.value || '';
+
+    const msg = encodeURIComponent(
+      `[청암스테이 예약 문의]\n` +
+      `체크인: ${ci}\n체크아웃: ${co} (${ni})\n` +
+      `객실: ${rm}\n패키지: ${pk}\n인원: ${gst}\n` +
+      (nm ? `이름: ${nm}\n` : '') +
+      (ph ? `연락처: ${ph}\n` : '') +
+      (nt ? `요청사항: ${nt}\n` : '') +
+      `\n* 위 내용을 확인 후 예약 가능 여부를 안내드리겠습니다.`
+    );
+
+    // 카카오 채널 오픈채팅 — 실제 URL로 교체 필요
+    window.open(`https://pf.kakao.com/_placeholder/chat`, '_blank', 'noopener');
+  }
+</script>
+</body>
+</html>

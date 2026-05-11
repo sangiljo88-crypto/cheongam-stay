@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>객실 상세 | 청암스테이</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Noto+Sans+KR:wght@400;500;700;800;900&family=Noto+Serif+KR:wght@500;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<nav class="nav" id="siteNav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">
+      <div class="nav-logo">청암스테이<span>Cheongam Stay</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">홈</a>
+      <a href="rooms.html" class="active">객실</a>
+      <a href="packages.html">패키지</a>
+      <a href="reservation.html">예약</a>
+      <a href="about.html">안내</a>
+    </div>
+    <div class="nav-actions">
+      <a href="reservation.html" class="btn btn-gold btn-sm">예약하기</a>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="nav-drawer" id="navDrawer">
+  <a href="index.html">🏠 홈</a>
+  <a href="rooms.html">🛏️ 객실 안내</a>
+  <a href="packages.html">🥩 패키지</a>
+  <a href="reservation.html">📅 예약하기</a>
+  <a href="about.html">ℹ️ 이용 안내</a>
+  <a href="reservation.html" class="btn btn-gold">예약하기</a>
+</div>
+
+<!-- BREADCRUMB -->
+<div style="margin-top:var(--nav-h);background:var(--bg-soft);padding:12px 0;border-bottom:1px solid var(--line-soft)">
+  <div class="wrap" style="font-size:13px;color:var(--muted)">
+    <a href="index.html" style="color:var(--muted)">청암스테이</a> ›
+    <a href="rooms.html" style="color:var(--muted)">객실</a> ›
+    <span style="color:var(--ink);font-weight:700" id="breadcrumbRoom">2인룸</span>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="detail-layout">
+  <div class="detail-gallery" id="roomGallery">
+    <div class="detail-gallery-main">
+      <img id="mainGalleryImg" src="images/room-double.jpg" alt="객실" loading="eager" onerror="this.style.background='var(--bg-deep)'"/>
+    </div>
+    <div class="detail-gallery-thumb">
+      <img src="images/bbq.jpg" alt="바베큐 공간" loading="lazy" onerror="this.style.background='var(--bg-deep)'"/>
+    </div>
+    <div class="detail-gallery-thumb">
+      <img src="images/lounge.jpg" alt="라운지" loading="lazy" onerror="this.style.background='var(--bg-deep)'"/>
+      <div class="gallery-more">+ 더 보기</div>
+    </div>
+  </div>
+
+  <div class="detail-content">
+    <!-- Main info -->
+    <div class="detail-main">
+      <div class="chips" style="margin-bottom:12px">
+        <span class="badge badge-gold" id="roomBadge">⭐ 인기 객실</span>
+      </div>
+      <h1 class="detail-title fade-up" id="roomTitle">2인룸 A · 더블베드</h1>
+      <p class="detail-subtitle fade-up">청암스테이 · 전북 군산 옥산리</p>
+
+      <div class="detail-rating fade-up">
+        <span style="font-size:18px;font-weight:900;color:var(--ink)">★ 4.9</span>
+        <span style="font-size:14px;color:var(--muted)">(리뷰 23개)</span>
+        <span style="color:var(--line)">|</span>
+        <span style="font-size:13px;color:var(--muted)">🌲 청암산 5분 거리</span>
+      </div>
+
+      <!-- Features -->
+      <div class="detail-features fade-up" id="roomFeatures">
+        <div class="detail-feature">
+          <span class="detail-feature-icon">👤</span>
+          <span id="feat-guests">2인</span>
+        </div>
+        <div class="detail-feature">
+          <span class="detail-feature-icon">🛏</span>
+          <span id="feat-bed">더블베드</span>
+        </div>
+        <div class="detail-feature">
+          <span class="detail-feature-icon">📐</span>
+          <span id="feat-size">약 30㎡</span>
+        </div>
+        <div class="detail-feature">
+          <span class="detail-feature-icon">🚿</span>
+          <span>전용 욕실</span>
+        </div>
+        <div class="detail-feature">
+          <span class="detail-feature-icon">🅿️</span>
+          <span>무료 주차</span>
+        </div>
+        <div class="detail-feature">
+          <span class="detail-feature-icon">🌐</span>
+          <span>Wi-Fi</span>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="detail-desc fade-up" id="roomDesc">
+        우드톤 인테리어와 넓은 더블베드가 갖춰진 청암스테이의 대표 객실입니다. 커플, 친구, 부부 여행 모두에 잘 어울립니다. 창밖으로는 청암산 방향의 자연 경치가 펼쳐지며, 바베큐 공간과 라운지가 바로 연결되어 식사부터 휴식까지 한자리에서 해결할 수 있습니다.
+      </div>
+
+      <!-- 혜택 강조 -->
+      <div style="background:linear-gradient(135deg,rgba(184,144,85,.08),rgba(184,144,85,.04));border:1px solid rgba(184,144,85,.25);border-radius:var(--r-lg);padding:20px 24px;margin-bottom:32px" class="fade-up">
+        <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--gold);margin-bottom:8px">🥩 새림 고기 한상 이용 시</div>
+        <div style="font-size:22px;font-weight:900;letter-spacing:-.04em;margin-bottom:4px">숙박 요금 50% 혜택</div>
+        <div style="font-size:13px;color:var(--muted)">정상가 99,000원 → 고기 이용 시 49,500원 / 박</div>
+        <a href="packages.html" style="display:inline-block;margin-top:12px;font-size:13px;font-weight:800;color:var(--gold)">패키지 보기 →</a>
+      </div>
+
+      <!-- Amenities -->
+      <div class="fade-up" style="margin-bottom:32px;padding-bottom:32px;border-bottom:1px solid var(--line-soft)">
+        <h3 style="font-size:18px;font-weight:900;letter-spacing:-.03em;margin-bottom:16px">제공되는 것들</h3>
+        <div class="amenities-grid" style="grid-template-columns:repeat(2,1fr)">
+          <div class="amenity-item"><span>🛁</span><span>욕실 어메니티 (샴푸, 컨디셔너, 바디워시)</span></div>
+          <div class="amenity-item"><span>☕</span><span>커피 & 차 (라운지 포함)</span></div>
+          <div class="amenity-item"><span>📺</span><span>55인치 TV</span></div>
+          <div class="amenity-item"><span>❄️</span><span>에어컨 & 히터</span></div>
+          <div class="amenity-item"><span>🔌</span><span>무선 충전 패드</span></div>
+          <div class="amenity-item"><span>🌐</span><span>초고속 Wi-Fi</span></div>
+          <div class="amenity-item"><span>🍽️</span><span>냉장고 & 전자레인지</span></div>
+          <div class="amenity-item"><span>🅿️</span><span>전용 주차 공간</span></div>
+        </div>
+      </div>
+
+      <!-- 이용 안내 -->
+      <div class="fade-up" style="margin-bottom:32px">
+        <h3 style="font-size:18px;font-weight:900;letter-spacing:-.03em;margin-bottom:14px">이용 안내</h3>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="notice-box">
+            <strong>체크인/체크아웃</strong> 체크인 오후 3시, 체크아웃 오전 11시
+          </div>
+          <div class="notice-box">
+            <strong>바베큐 이용</strong> 체크인 후 ~ 오후 10시까지. 새림 고기 한상 이용 시 기본 세팅 포함.
+          </div>
+          <div class="notice-box">
+            <strong>반려동물 · 흡연</strong> 반려동물 불가. 흡연은 지정 구역에서만.
+          </div>
+        </div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="fade-up">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <h3 style="font-size:18px;font-weight:900;letter-spacing:-.03em">★ 4.9 · 리뷰 23개</h3>
+        </div>
+        <div class="review-grid">
+          <div class="review-card">
+            <div class="review-header">
+              <div class="review-avatar">김</div>
+              <div>
+                <div class="review-name">김○○ 님</div>
+                <div class="review-date">2024년 11월 · 2인룸</div>
+              </div>
+            </div>
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">고기도 맛있고 방도 깔끔하고. 청암산 다녀오고 바베큐 구워 먹고 라운지에서 커피 마시는 코스가 완벽했어요.</p>
+          </div>
+          <div class="review-card">
+            <div class="review-header">
+              <div class="review-avatar">박</div>
+              <div>
+                <div class="review-name">박○○ 님</div>
+                <div class="review-date">2024년 10월 · 2인룸</div>
+              </div>
+            </div>
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">숙박 50% 혜택이 진짜인 게 신기했어요. 고기 퀄리티가 정말 달라요. 일반 식당이랑은 비교가 안 됩니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Booking Card -->
+    <div>
+      <div class="booking-card">
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4px">
+            <div>
+              <span style="text-decoration:line-through;font-size:13px;color:var(--muted-light)" id="detailPriceOriginal">99,000원</span>
+              <div style="font-size:26px;font-weight:900;letter-spacing:-.05em" id="detailPrice">49,500원</div>
+            </div>
+            <span style="font-size:13px;color:var(--muted)">/ 박</span>
+          </div>
+          <div style="font-size:12px;color:#c0392b;font-weight:800">🥩 새림 고기 이용 시 50% 할인 적용가</div>
+        </div>
+
+        <div class="booking-dates" style="margin-bottom:16px">
+          <div class="booking-date-field">
+            <div class="booking-date-label">체크인</div>
+            <div class="booking-date-value">날짜 선택</div>
+          </div>
+          <div class="booking-date-field">
+            <div class="booking-date-label">체크아웃</div>
+            <div class="booking-date-value">날짜 선택</div>
+          </div>
+        </div>
+
+        <div class="booking-guests" style="margin-bottom:16px">
+          <div class="booking-guests-label">인원</div>
+          <div class="booking-guests-value">성인 2명</div>
+        </div>
+
+        <div class="booking-cta">
+          <a href="reservation.html" class="btn btn-gold btn-lg">예약하기</a>
+          <a href="https://pf.kakao.com" target="_blank" rel="noopener" class="btn btn-kakao">💬 카카오 문의</a>
+          <a href="tel:010-0000-0000" class="btn btn-outline">📞 전화 문의</a>
+        </div>
+
+        <div style="margin-top:14px;text-align:center;font-size:12px;color:var(--muted)">
+          확정 전까지 요금이 청구되지 않습니다
+        </div>
+
+        <!-- 요금 계산기 -->
+        <div style="margin-top:20px;padding:16px;background:var(--bg-soft);border-radius:var(--r-md)">
+          <div style="font-size:12px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">요금 안내</div>
+          <div class="price-row">
+            <span class="price-label">정상 객실 요금 (1박)</span>
+            <span id="calcBase">99,000원</span>
+          </div>
+          <div class="price-row">
+            <span class="price-label" style="color:#c0392b">고기 이용 할인</span>
+            <span style="color:#c0392b;font-weight:800" id="calcDiscount">−49,500원</span>
+          </div>
+          <div class="price-row total">
+            <span>할인 후 객실 요금</span>
+            <span id="calcAfter">49,500원 / 박</span>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:8px">* 고기 한상 금액 별도 · 성수기 요금 별도</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 다른 객실 -->
+<section class="section-tight" style="background:var(--bg-soft)">
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+      <h2 style="font-size:22px;font-weight:900;letter-spacing:-.04em">다른 객실도 둘러보세요</h2>
+      <a href="rooms.html" class="btn btn-outline btn-sm">전체 보기</a>
+    </div>
+    <div class="rooms-grid">
+      <a href="room-detail.html?type=single" class="room-card fade-up">
+        <div class="room-card-img">
+          <img src="images/room-single.jpg" alt="1인실" loading="lazy" onerror="this.parentElement.style.background='var(--bg-deep)'"/>
+        </div>
+        <div class="room-card-body">
+          <div class="room-card-header">
+            <h3 class="room-card-name">1인실</h3>
+            <div class="room-card-rating">★ 4.9</div>
+          </div>
+          <div class="room-card-price">
+            <div>
+              <span class="price-current">59,000원 <span class="price-unit">/ 박</span></span>
+            </div>
+          </div>
+        </div>
+      </a>
+      <a href="room-detail.html?type=family" class="room-card fade-up">
+        <div class="room-card-img">
+          <img src="images/room-family.jpg" alt="패밀리룸" loading="lazy" onerror="this.parentElement.style.background='var(--bg-deep)'"/>
+        </div>
+        <div class="room-card-body">
+          <div class="room-card-header">
+            <h3 class="room-card-name">패밀리룸 (온돌)</h3>
+            <div class="room-card-rating">★ 5.0</div>
+          </div>
+          <div class="room-card-price">
+            <div>
+              <span class="price-original">169,000원</span>
+              <span class="price-current">84,500원 <span class="price-unit">/ 박</span></span>
+              <span class="price-discount">고기 이용 시</span>
+            </div>
+          </div>
+        </div>
+      </a>
+      <a href="room-detail.html?type=whole" class="room-card fade-up">
+        <div class="room-card-img">
+          <img src="images/garden.jpg" alt="통대관" loading="lazy" onerror="this.parentElement.style.background='var(--bg-deep)'"/>
+          <div class="room-card-badge"><span class="badge badge-green">🏡 단독 이용</span></div>
+        </div>
+        <div class="room-card-body">
+          <div class="room-card-header">
+            <h3 class="room-card-name">통대관 (전관)</h3>
+            <div class="room-card-rating">★ 4.9</div>
+          </div>
+          <div class="room-card-price">
+            <div>
+              <span class="price-original">1,230,000원</span>
+              <span class="price-current">615,000원 <span class="price-unit">/ 박</span></span>
+              <span class="price-discount">고기 이용 시</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">청암스테이</div>
+      <p class="footer-desc">전북 군산 옥산리 · 청암산 5분 거리</p>
+      <div class="footer-contact">
+        <a href="tel:010-0000-0000">📞 010-0000-0000</a>
+        <a href="https://pf.kakao.com" target="_blank">💬 카카오톡 채널</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-heading">바로가기</div>
+      <div class="footer-links">
+        <a href="rooms.html">전체 객실</a>
+        <a href="packages.html">패키지</a>
+        <a href="reservation.html">예약하기</a>
+      </div>
+    </div>
+    <div></div><div></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 청암스테이 · 새림 운영</span>
+  </div>
+</footer>
+
+<div class="mobile-cta">
+  <div class="mobile-cta-price">
+    <span class="price" id="mobilePrice">49,500원~</span>
+    <span class="per"> / 박 (고기 이용 시)</span>
+  </div>
+  <a href="reservation.html" class="btn btn-gold">예약하기</a>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+  // URL 파라미터로 객실 유형 동적 변경
+  const params = new URLSearchParams(window.location.search);
+  const type = params.get('type') || 'double';
+
+  const roomInfo = {
+    single: {
+      title: '1인실 A · 마운틴뷰',
+      badge: '🌿 혼자만의 시간',
+      img: 'images/room-single.jpg',
+      price: 59000,
+      discounted: 59000, // 1인실은 할인 없음
+      noDiscount: true,
+      guests: '1인',
+      bed: '싱글 침대',
+      size: '약 18㎡',
+      desc: '청암산이 내려다보이는 조용한 1인 객실. 혼자만의 완전한 휴식을 위한 공간입니다. 작은 테라스에서 아침 커피 한 잔을 즐기기 좋습니다.',
+    },
+    double: {
+      title: '2인룸 A · 더블베드',
+      badge: '⭐ 가장 인기',
+      img: 'images/room-double.jpg',
+      price: 99000,
+      discounted: 49500,
+      guests: '2인',
+      bed: '더블 침대',
+      size: '약 30㎡',
+      desc: '우드톤 인테리어와 넓은 더블베드가 갖춰진 청암스테이의 대표 객실. 커플, 친구, 부부 여행 모두에 잘 어울립니다.',
+    },
+    family: {
+      title: '패밀리룸 A · 온돌',
+      badge: '👨‍👩‍👧 가족 추천',
+      img: 'images/room-family.jpg',
+      price: 169000,
+      discounted: 84500,
+      guests: '3~4인',
+      bed: '온돌 바닥',
+      size: '약 45㎡',
+      desc: '온돌 바닥 취침이 가능한 넓은 패밀리룸. 영유아 동반 가족이 가장 많이 찾는 객실입니다. 라운지 한쪽 서적 공간에서 아이들과 함께 시간을 보낼 수 있습니다.',
+    },
+    whole: {
+      title: '통대관 · 전관 단독',
+      badge: '🏡 단독 이용',
+      img: 'images/garden.jpg',
+      price: 1230000,
+      discounted: 615000,
+      guests: '최대 40명',
+      bed: '전 객실 포함',
+      size: '전관',
+      desc: '청암스테이 전관을 우리 모임만을 위한 공간으로. 마당, 바베큐 구역, 라운지, 전 객실을 단독으로 이용하실 수 있습니다. 기업 워크숍, 단체 행사, 특별한 파티에 최적입니다.',
+    },
+  };
+
+  const info = roomInfo[type] || roomInfo.double;
+  document.getElementById('breadcrumbRoom').textContent = info.title;
+  document.getElementById('roomTitle').textContent = info.title;
+  document.getElementById('roomBadge').textContent = info.badge;
+  document.getElementById('mainGalleryImg').src = info.img;
+  document.getElementById('roomDesc').textContent = info.desc;
+  document.getElementById('feat-guests').textContent = info.guests;
+  document.getElementById('feat-bed').textContent = info.bed;
+  document.getElementById('feat-size').textContent = info.size;
+
+  const fmt = n => n.toLocaleString() + '원';
+  if (info.noDiscount) {
+    document.getElementById('detailPrice').textContent = fmt(info.price);
+    document.getElementById('detailPriceOriginal').textContent = '';
+    document.querySelector('[style*="color:#c0392b"]').textContent = '1인실은 정상가 적용';
+    document.getElementById('calcDiscount').textContent = '해당 없음';
+    document.getElementById('calcAfter').textContent = fmt(info.price) + ' / 박';
+    document.getElementById('mobilePrice').textContent = fmt(info.price) + '~';
+  } else {
+    document.getElementById('detailPrice').textContent = fmt(info.discounted);
+    document.getElementById('detailPriceOriginal').textContent = fmt(info.price);
+    document.getElementById('calcBase').textContent = fmt(info.price);
+    document.getElementById('calcDiscount').textContent = '−' + fmt(info.price - info.discounted);
+    document.getElementById('calcAfter').textContent = fmt(info.discounted) + ' / 박';
+    document.getElementById('mobilePrice').textContent = fmt(info.discounted) + '~';
+  }
+</script>
+</body>
+</html>
