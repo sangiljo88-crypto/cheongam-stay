@@ -1251,7 +1251,7 @@ ul, ol { list-style: none; }
 .fade-up:nth-child(6) { transition-delay: .40s; }
 
 /* ============================================================
-   RESPONSIVE
+   RESPONSIVE — TABLET (1024px ↓)
    ============================================================ */
 @media (max-width: 1024px) {
   .rooms-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1263,144 +1263,449 @@ ul, ol { list-style: none; }
   .booking-card { position: static; }
 }
 
+/* ============================================================
+   RESPONSIVE — MOBILE (768px ↓)
+   야놀자/에어비앤비 모바일 스타일 가독성 우선
+   ============================================================ */
 @media (max-width: 768px) {
-  :root { --nav-h: 60px; }
+  :root {
+    --nav-h: 56px;
+    --gutter: 16px;
+  }
 
-  /* Nav */
-  .nav-links { display: none; }
-  .nav-actions .btn-outline { display: none; }
-  .nav-actions .btn-sm { padding: 0 12px; font-size: 12px; }
+  body {
+    font-size: 15px;
+    line-height: 1.6;
+    padding-bottom: 84px; /* sticky CTA 공간 */
+  }
+
+  /* ===== Nav ===== */
+  .nav-links,
+  .nav-actions .btn-outline,
+  .nav-actions a[href="tel:010-0000-0000"] { display: none; }
+  .nav-actions .btn-sm { padding: 0 14px; font-size: 13px; height: 36px; }
   .nav-toggle { display: flex; }
-  /* drawer: 닫혀있을 때는 translate로 화면 밖에 두지만, display는 항상 flex */
   .nav-drawer { display: flex; }
+  .nav-logo { font-size: 17px; }
+  .nav-logo span { display: none; }
 
-  /* Hero */
-  .home-hero { min-height: auto; padding-bottom: 24px; }
-  .home-hero-content { padding: calc(var(--nav-h) + 32px) var(--gutter) 24px; }
-  .home-hero-content h1 { font-size: clamp(28px, 8vw, 40px); margin-bottom: 12px; }
-  .home-hero-content p { font-size: 14px; margin-bottom: 20px; }
-  .home-hero-content .chips { gap: 6px; }
-  .home-hero-content .chip { font-size: 11px; padding: 6px 10px; }
+  /* ===== Home Hero ===== */
+  .home-hero { min-height: auto; padding-bottom: 32px; }
+  .home-hero-content {
+    padding: calc(var(--nav-h) + 40px) var(--gutter) 28px;
+  }
+  .home-hero-content .eyebrow { font-size: 10px; margin-bottom: 14px; }
+  .home-hero-content h1 {
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -.05em;
+    margin-bottom: 14px;
+  }
+  .home-hero-content p {
+    font-size: 15px;
+    line-height: 1.55;
+    margin-bottom: 22px;
+  }
+  .home-hero-content .chips { gap: 6px; margin-bottom: 24px; }
+  .home-hero-content .chip {
+    font-size: 11px;
+    padding: 7px 12px;
+    background: rgba(255,255,255,.15);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,.2);
+  }
   .hero-search-wrap { padding: 0 var(--gutter) 24px; }
-  .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 24px; }
-  .hero-stat { padding: 10px 12px; }
-  .hero-stat b { font-size: 16px; }
-  .hero-stat span { font-size: 10px; }
+  .hero-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 28px;
+  }
+  .hero-stat {
+    padding: 14px 14px;
+    background: rgba(255,250,241,.94);
+    color: var(--ink);
+  }
+  .hero-stat b { font-size: 18px; }
+  .hero-stat span { font-size: 11px; }
 
-  /* Page Hero */
-  .page-hero { height: clamp(200px, 38vw, 280px); }
-  .page-hero-content h1 { font-size: clamp(24px, 7vw, 32px); }
+  /* ===== Page Hero ===== */
+  .page-hero { height: 220px; margin-top: var(--nav-h); }
+  .page-hero-content { padding: 24px 20px; }
+  .page-hero-content .eyebrow { font-size: 10px; }
+  .page-hero-content h1 { font-size: 30px; margin-bottom: 4px; }
   .page-hero-content p { font-size: 13px; }
 
-  /* Search Bar */
-  .search-bar { flex-direction: column; border-radius: var(--r-lg); padding: 8px; gap: 4px; }
-  .search-field { border-right: none; border-bottom: 1px solid var(--line-soft); width: 100%; padding: 10px 14px; }
+  /* ===== Search Bar ===== */
+  .search-bar {
+    flex-direction: column;
+    border-radius: 20px;
+    padding: 10px;
+    gap: 2px;
+    box-shadow: 0 8px 24px rgba(36,27,21,.12);
+  }
+  .search-field {
+    border-right: none;
+    border-bottom: 1px solid var(--line-soft);
+    width: 100%;
+    padding: 12px 16px;
+  }
   .search-field:last-of-type { border-bottom: none; }
-  .search-bar > .btn { width: 100%; }
+  .search-field label { font-size: 10px; }
+  .search-field input, .search-field select { font-size: 14px; }
+  .search-bar > .btn {
+    width: 100%;
+    height: 50px;
+    margin-top: 6px;
+  }
 
-  /* Sections */
-  .section { padding: 48px 0; }
-  .section-tight { padding: 32px 0; }
-  .section-title { font-size: clamp(22px, 6vw, 30px); margin-bottom: 12px; }
+  /* ===== Sections ===== */
+  .section { padding: 52px 0; }
+  .section-tight { padding: 36px 0; }
+  .section-title {
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: -.04em;
+    margin-bottom: 12px;
+  }
+  .section-lead { font-size: 14px; line-height: 1.65; }
+  .eyebrow { font-size: 10px; margin-bottom: 12px; }
 
-  /* Grids */
-  .rooms-grid { grid-template-columns: 1fr; gap: 14px; }
-  .review-grid { grid-template-columns: 1fr; }
-  .detail-features { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .booking-dates { grid-template-columns: 1fr 1fr; }
+  /* ===== Filter Chips ===== */
+  .chips { gap: 6px; }
+  .chip {
+    font-size: 12px;
+    padding: 7px 14px;
+    min-height: 34px;
+  }
+
+  /* ===== Room Cards (1열) ===== */
+  .rooms-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .room-card-img { aspect-ratio: 4/3; }
+  .room-card-name { font-size: 17px; }
+  .room-card-desc { font-size: 13px; }
+  .room-card-body { padding: 18px 20px 22px; }
+  .price-current { font-size: 18px; }
+
+  /* ===== Package Cards ===== */
+  .package-grid { grid-template-columns: 1fr; }
   .pkg-card { flex-direction: column; }
-  .pkg-card-img { width: 100%; height: 180px; }
-  .footer-inner { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .pkg-card-img {
+    width: 100%;
+    height: 200px;
+  }
+  .pkg-card-body { padding: 22px; }
+  .pkg-card-name { font-size: 18px; }
+  .pkg-card-desc { font-size: 13px; }
+  .pkg-price { font-size: 22px; }
 
-  /* Layout fixes */
-  .home-hero .wrap { padding-bottom: 24px; }
-  .why-grid, [class*="grid-template-columns:repeat(3"] { grid-template-columns: 1fr !important; }
-  .review-card { padding: 18px; }
-  .booking-card { padding: 20px; }
+  /* ===== Reviews (1열) ===== */
+  .review-grid { grid-template-columns: 1fr; gap: 12px; }
+  .review-card { padding: 20px; }
+  .review-text { font-size: 14px; line-height: 1.65; }
 
-  /* Detail */
-  .detail-gallery { grid-template-columns: 1fr; grid-template-rows: 240px 120px 120px; }
-  .detail-gallery-main { grid-row: span 1; aspect-ratio: auto; }
-  .detail-gallery-thumb:nth-child(3) { display: block; }
-  .detail-layout { padding: 16px var(--gutter) 80px; }
-  .detail-title { font-size: 22px; }
+  /* ===== Highlight Section ===== */
+  .highlight-section {
+    min-height: 280px;
+    border-radius: 20px;
+  }
+  .highlight-content {
+    padding: 32px 24px;
+    max-width: 100%;
+  }
+  .highlight-content h2 { font-size: 24px; line-height: 1.25; }
+  .highlight-content p { font-size: 13px; line-height: 1.65; }
+  .highlight-section::after {
+    background: linear-gradient(180deg, rgba(23,19,15,.4) 30%, rgba(23,19,15,.9) 100%);
+  }
 
-  /* Highlight */
-  .highlight-section { min-height: 280px; }
-  .highlight-content { padding: 28px 24px; max-width: 100%; }
-  .highlight-content h2 { font-size: 24px; }
-  .highlight-content p { font-size: 13px; }
+  /* ===== Why Cheongam / Spaces (인라인 그리드 강제 1열) ===== */
+  .wrap > .grid[style*="grid-template-columns:repeat(3,1fr)"],
+  [style*="grid-template-columns:1fr 1fr;gap:20px"],
+  [style*="grid-template-columns:1fr 1fr"][style*="margin-bottom:60px"] {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
 
-  /* Map */
-  .map-placeholder { aspect-ratio: 4/3; }
+  /* ===== Pricing 4-column → 1열 (강조 카드만 풀폭) ===== */
+  [style*="grid-template-columns:repeat(4,1fr)"] {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+  [style*="grid-template-columns:repeat(4,1fr)"] > div {
+    padding: 18px 14px !important;
+  }
+  [style*="grid-template-columns:repeat(4,1fr)"] > div > div[style*="font-size:32px"] {
+    font-size: 26px !important;
+  }
+  [style*="grid-template-columns:repeat(4,1fr)"] > div > div[style*="font-size:24px"] {
+    font-size: 19px !important;
+  }
+  [style*="grid-template-columns:repeat(4,1fr)"] > div > div[style*="font-size:22px"] {
+    font-size: 19px !important;
+  }
 
-  /* Pricing grid override */
-  [style*="grid-template-columns:repeat(4,1fr)"] { grid-template-columns: 1fr 1fr !important; }
-
-  /* Reservation page */
-  .res-header h1 { font-size: 24px; }
-  .res-steps { flex-direction: column; gap: 0; }
-  .res-step { padding: 8px 0; }
+  /* ===== Reservation Page ===== */
+  .reservation-layout {
+    padding: 16px var(--gutter) 32px;
+    gap: 16px;
+  }
+  .res-header { padding: 24px 0 0; }
+  .res-header h1 { font-size: 26px; }
+  .res-header p { font-size: 14px; }
+  .res-steps {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 8px;
+    padding-bottom: 8px;
+    margin: 20px -16px 0;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .res-step {
+    flex: 0 0 auto;
+    padding: 8px 14px;
+    background: var(--paper);
+    border: 1px solid var(--line-soft);
+    border-radius: 999px;
+    font-size: 12px;
+    min-width: auto;
+  }
+  .res-step.active { background: var(--ink); color: #fff; }
+  .res-step.active .res-step-num { background: #fff; color: var(--ink); border-color: #fff; }
+  .res-step-num {
+    width: 20px; height: 20px;
+    font-size: 10px;
+  }
   .res-step-line { display: none; }
+  .res-step span { font-size: 12px; font-weight: 700; }
 
-  /* Calendar */
-  .calendar-section { padding: 20px 16px; }
-  .calendar-nav h3 { font-size: 16px; }
-  .cal-day { font-size: 11px; }
+  /* ===== Calendar ===== */
+  .calendar-section {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+  .calendar-section h2 { font-size: 18px !important; }
+  .calendar-section p { font-size: 12px; }
+  .calendar-nav h3 { font-size: 15px; }
+  .cal-nav-btn { width: 32px; height: 32px; font-size: 14px; }
+  .cal-day-name { font-size: 10px; padding: 6px 0; }
+  .cal-day { font-size: 12px; gap: 1px; }
   .cal-price { font-size: 8px; }
 
-  /* Mobile CTA bar */
-  .mobile-cta { display: flex; align-items: center; }
-  .mobile-cta-price .price { font-size: 16px; }
-  .mobile-cta-price .per { font-size: 11px; }
-  .mobile-cta .btn { padding: 0 18px; }
+  /* ===== Room Selector ===== */
+  .room-selector-grid { grid-template-columns: 1fr !important; gap: 10px; }
+  .room-selector-card { padding: 14px; gap: 12px; }
+  .room-sel-img { width: 64px; height: 50px; }
+  .room-sel-name { font-size: 14px; }
+  .room-sel-meta { font-size: 11px; }
+  .room-sel-price { font-size: 13px; }
 
-  /* Body padding for sticky CTA */
-  body { padding-bottom: 80px; }
+  /* ===== Package selector ===== */
+  .pkg-option { padding: 14px; gap: 10px; }
+  .pkg-opt-name { font-size: 14px; }
+  .pkg-opt-desc { font-size: 12px; }
+  .pkg-opt-price { font-size: 13px; }
 
-  /* Footer */
+  /* ===== Booking Card ===== */
+  .booking-card {
+    padding: 20px;
+    position: static;
+    border-radius: 18px;
+  }
+  .booking-card-room { margin-bottom: 18px; padding-bottom: 16px; }
+  .booking-room-img { width: 70px; height: 54px; }
+  .booking-room-name { font-size: 15px; }
+  .booking-room-meta { font-size: 12px; }
+  .booking-dates { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .booking-date-field { padding: 11px 12px; }
+  .booking-date-label { font-size: 9px; }
+  .booking-date-value { font-size: 13px; }
+  .booking-guests { padding: 11px 12px; margin-bottom: 16px; }
+  .booking-guests-label { font-size: 9px; }
+  .booking-guests-value { font-size: 13px; }
+  .booking-price-breakdown { margin-bottom: 16px; }
+  .price-row { font-size: 13px; padding: 6px 0; }
+  .price-row.total { font-size: 15px; padding-top: 12px; }
+
+  /* ===== Form Inputs ===== */
+  .form-label { font-size: 13px; }
+  .form-input, .form-select, .form-textarea {
+    font-size: 16px; /* iOS 자동 zoom 방지 */
+    padding: 12px 14px;
+  }
+
+  /* ===== Counter Buttons ===== */
+  .counter-btn { width: 32px; height: 32px; font-size: 18px; }
+  .counter-num { font-size: 16px; }
+  .guest-type { font-size: 14px; }
+  .guest-age { font-size: 11px; }
+
+  /* ===== Detail Page ===== */
+  .detail-layout { padding: 16px var(--gutter) 32px; }
+  .detail-gallery {
+    grid-template-columns: 1fr;
+    grid-template-rows: 240px;
+    gap: 6px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+  }
+  .detail-gallery-main { grid-row: span 1; }
+  .detail-gallery-thumb { display: none; }
+  .detail-title { font-size: 24px; margin-bottom: 8px; }
+  .detail-subtitle { font-size: 13px; }
+  .detail-features {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 14px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+  }
+  .detail-feature { font-size: 13px; }
+  .detail-feature-icon { font-size: 18px; }
+  .detail-desc { font-size: 14px; margin-bottom: 24px; padding-bottom: 24px; }
+
+  /* ===== Amenities ===== */
+  .amenities-grid { grid-template-columns: 1fr; gap: 8px; }
+  .amenity-item { font-size: 13px; padding: 4px 0; }
+
+  /* ===== Map ===== */
+  .map-placeholder { aspect-ratio: 4/3; border-radius: 16px; }
+  .map-placeholder > div[style*="position:absolute"] {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: flex-start !important;
+    padding: 12px 14px !important;
+  }
+  .map-placeholder > div[style*="position:absolute"] > div:first-child > div:first-child {
+    font-size: 13px !important;
+  }
+  .map-placeholder > div[style*="position:absolute"] > div:last-child {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .map-placeholder > div[style*="position:absolute"] .btn-sm {
+    flex: 1;
+    min-width: 0;
+    font-size: 12px !important;
+    padding: 0 8px !important;
+  }
+
+  /* ===== Tables (About 페이지 취소 정책) ===== */
+  table { font-size: 12px; }
+  th, td { padding: 10px 12px !important; }
+  th { font-size: 10px; }
+  td { font-size: 12px; }
+
+  /* ===== FAQ ===== */
+  .faq-question { font-size: 14px; padding: 16px 18px; }
+  .faq-answer-inner { font-size: 13px; padding: 0 18px 16px; }
+
+  /* ===== Footer ===== */
+  .footer { padding: 48px 0 100px; }
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
   .footer-brand { grid-column: 1 / -1; }
+  .footer-logo { font-size: 20px; }
+  .footer-desc { font-size: 13px; }
+  .footer-heading { font-size: 11px; }
+  .footer-links a, .footer-contact a { font-size: 13px; }
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  /* ===== Sticky Mobile CTA ===== */
+  .mobile-cta {
+    display: flex;
+    align-items: center;
+    padding: 12px 14px;
+    gap: 10px;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -8px 24px rgba(36,27,21,.12);
+  }
+  .mobile-cta-price .price { font-size: 17px; }
+  .mobile-cta-price .per { font-size: 11px; }
+  .mobile-cta .btn {
+    height: 46px;
+    padding: 0 22px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  /* ===== Buttons ===== */
+  .btn { height: 48px; padding: 0 20px; font-size: 14px; }
+  .btn-sm { height: 38px; padding: 0 14px; font-size: 12px; }
+  .btn-lg { height: 52px; padding: 0 24px; font-size: 15px; }
+
+  /* ===== Final CTA ===== */
+  .section-tight[style*="background:var(--darker)"] h2 {
+    font-size: 26px !important;
+    line-height: 1.25 !important;
+  }
+  .section-tight[style*="background:var(--darker)"] p {
+    font-size: 14px !important;
+  }
+
+  /* ===== Notice Box ===== */
+  .notice-box { padding: 14px 16px; font-size: 12px; }
+
+  /* ===== Wholesale (통대관 카드) ===== */
+  .wrap [style*="grid-template-columns:1fr 1fr"][class*="room-card"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ===== 단체 패키지 / 부동 인라인 그리드 ===== */
+  .wrap [style*="display:grid;grid-template-columns:1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
 }
 
+/* ============================================================
+   RESPONSIVE — SMALL MOBILE (480px ↓)
+   ============================================================ */
 @media (max-width: 480px) {
   :root { --gutter: 14px; }
 
-  .hero-stats { grid-template-columns: repeat(2, 1fr); }
-  .amenities-grid { grid-template-columns: 1fr; }
-  .footer-inner { grid-template-columns: 1fr; }
+  .home-hero-content h1 { font-size: 28px; }
+  .home-hero-content p { font-size: 14px; }
+  .section-title { font-size: 24px; }
+  .page-hero-content h1 { font-size: 26px; }
+
+  .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .hero-stat { padding: 12px; }
+  .hero-stat b { font-size: 16px; }
+  .hero-stat span { font-size: 10px; }
+
+  .footer-inner { grid-template-columns: 1fr; gap: 24px; }
   .footer-brand { grid-column: auto; }
 
-  /* Smaller home hero on tiny screens */
-  .home-hero-content h1 { font-size: 26px; }
-  .home-hero-content p { font-size: 13px; }
+  .detail-gallery { grid-template-rows: 200px; }
 
-  /* Section header */
-  .section-title { font-size: 22px; }
-
-  /* Detail */
-  .detail-gallery { grid-template-rows: 200px 100px 100px; }
-
-  /* Pricing grid override → 1열 */
-  [style*="grid-template-columns:repeat(4,1fr)"] { grid-template-columns: 1fr !important; }
-
-  /* Highlight content */
-  .highlight-content { padding: 24px 18px; }
-  .highlight-content h2 { font-size: 20px; }
+  [style*="grid-template-columns:repeat(4,1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
 
   /* Date picker popup */
   #datePickerOverlay > div { padding: 20px 16px !important; }
   #datePickerOverlay > div > div[style*="grid-template-columns:1fr 1fr"] {
     grid-template-columns: 1fr !important;
-    gap: 16px !important;
+    gap: 14px !important;
+  }
+  #datePickerOverlay div[style*="display:flex"][style*="gap:20px"] {
+    gap: 10px !important;
+  }
+  #datePickerOverlay div[style*="display:flex"][style*="gap:20px"] > div:nth-child(2) {
+    display: none !important;
   }
 
-  /* Map external links */
-  .map-placeholder div[style*="display:flex"] {
-    flex-direction: column !important;
-    gap: 8px !important;
-    align-items: flex-start !important;
-  }
-
-  /* Reservation room selector */
-  .room-selector-grid { grid-template-columns: 1fr !important; }
+  /* Kakao Modal */
+  #kakaoInquiryModal > div { max-width: 100% !important; }
+  #kkmPreview { font-size: 12px !important; padding: 14px 16px !important; }
 }
