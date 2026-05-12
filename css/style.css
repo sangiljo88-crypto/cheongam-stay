@@ -193,6 +193,9 @@ ul, ol { list-style: none; }
 .btn-kakao { background: #FEE500; color: #181600; }
 .btn-kakao:hover { background: #ffd900; }
 
+.btn-naver { background: #03C75A; color: #fff; }
+.btn-naver:hover { background: #02b350; }
+
 /* ============================================================
    NAVIGATION
    ============================================================ */
