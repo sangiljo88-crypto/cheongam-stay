@@ -113,14 +113,18 @@
     subtitle.style.cssText = 'font-size:13px; color:#756a5f; margin-bottom:24px;';
     subtitle.textContent = '체크인 → 체크아웃 순으로 클릭하세요';
 
-    // 두 달 나란히 표시
+    // 달력 영역 — 모바일은 1달, 데스크톱은 2달
+    const isMobile = window.matchMedia('(max-width: 640px)').matches;
     const calWrap = document.createElement('div');
-    calWrap.style.cssText = 'display:grid; grid-template-columns:1fr 1fr; gap:24px;';
+    calWrap.id = 'popupCalWrap';
+    calWrap.style.cssText = isMobile
+      ? 'display:block;'
+      : 'display:grid; grid-template-columns:1fr 1fr; gap:24px;';
 
     const cal1El = document.createElement('div');
     const cal2El = document.createElement('div');
     calWrap.appendChild(cal1El);
-    calWrap.appendChild(cal2El);
+    if (!isMobile) calWrap.appendChild(cal2El);
 
     // 선택 결과 표시
     const selectedBar = document.createElement('div');
@@ -286,28 +290,60 @@
     }
 
     function renderBoth() {
+      const mobile = window.matchMedia('(max-width: 640px)').matches;
+
+      // 컨테이너 레이아웃 동기화
+      calWrap.style.cssText = mobile
+        ? 'display:block;'
+        : 'display:grid; grid-template-columns:1fr 1fr; gap:24px;';
+
+      // 모바일에선 cal2El을 떼고, 데스크톱에선 다시 붙임
+      if (mobile) {
+        if (cal2El.parentNode) cal2El.parentNode.removeChild(cal2El);
+      } else {
+        if (!cal2El.parentNode) calWrap.appendChild(cal2El);
+      }
+
       renderMiniCal(cal1El, currentMonth1);
-      renderMiniCal(cal2El, currentMonth2);
+      if (!mobile) renderMiniCal(cal2El, currentMonth2);
 
-      // 월 이동 버튼 추가 (cal1 상단)
-      const nav1 = document.createElement('div');
-      nav1.style.cssText = 'display:flex;justify-content:space-between;margin-bottom:8px';
-      nav1.innerHTML = `
-        <button id="pp-prev" style="background:none;border:1px solid #e0d8cc;border-radius:8px;width:30px;height:30px;cursor:pointer;font-size:14px">‹</button>
-        <button id="pp-next" style="background:none;border:1px solid #e0d8cc;border-radius:8px;width:30px;height:30px;cursor:pointer;font-size:14px">›</button>
-      `;
-      cal1El.insertBefore(nav1, cal1El.firstChild);
+      // 월 이동 버튼 — 외부 컨테이너 상단에 한 번만
+      let navBar = document.getElementById('pp-nav-bar');
+      if (!navBar) {
+        navBar = document.createElement('div');
+        navBar.id = 'pp-nav-bar';
+        navBar.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px';
+        navBar.innerHTML = `
+          <button id="pp-prev" aria-label="이전 달" style="background:#f6f0e6;border:1px solid #e0d8cc;border-radius:10px;width:36px;height:36px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">‹</button>
+          <div id="pp-current-month" style="flex:1;text-align:center;font-size:14px;font-weight:800;color:#241b15"></div>
+          <button id="pp-next" aria-label="다음 달" style="background:#f6f0e6;border:1px solid #e0d8cc;border-radius:10px;width:36px;height:36px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center">›</button>
+        `;
+        calWrap.parentNode.insertBefore(navBar, calWrap);
 
-      document.getElementById('pp-prev').addEventListener('click', () => {
-        currentMonth1 = new Date(currentMonth1.getFullYear(), currentMonth1.getMonth()-1, 1);
-        currentMonth2 = new Date(currentMonth1.getFullYear(), currentMonth1.getMonth()+1, 1);
-        renderBoth();
-      });
-      document.getElementById('pp-next').addEventListener('click', () => {
-        currentMonth1 = new Date(currentMonth1.getFullYear(), currentMonth1.getMonth()+1, 1);
-        currentMonth2 = new Date(currentMonth1.getFullYear(), currentMonth1.getMonth()+1, 1);
-        renderBoth();
-      });
+        document.getElementById('pp-prev').addEventListener('click', () => {
+          currentMonth1 = new Date(currentMonth1.getFullYear(), currentMonth1.getMonth()-1, 1);
+          currentMonth2 = new Date(currentMonth1.getFullYear(), currentMonth1.getMonth()+1, 1);
+          renderBoth();
+        });
+        document.getElementById('pp-next').addEventListener('click', () => {
+          currentMonth1 = new Date(currentMonth1.getFullYear(), currentMonth1.getMonth()+1, 1);
+          currentMonth2 = new Date(currentMonth1.getFullYear(), currentMonth1.getMonth()+1, 1);
+          renderBoth();
+        });
+      }
+
+      // 모바일에선 "이전 달 보기" 같은 라벨 표시
+      const lbl = document.getElementById('pp-current-month');
+      if (lbl) {
+        if (mobile) {
+          lbl.textContent = '←  좌우 버튼으로 다른 달 보기  →';
+          lbl.style.fontSize = '11px';
+          lbl.style.color = '#9b9085';
+          lbl.style.fontWeight = '700';
+        } else {
+          lbl.textContent = '';
+        }
+      }
     }
 
     // 검색바 입력 클릭 이벤트
