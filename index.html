@@ -73,38 +73,15 @@
     </div>
   </div>
 
-  <!-- Hero Search Bar -->
-  <div class="hero-search-wrap">
-    <div class="search-bar fade-up">
-      <div class="search-field">
-        <label>체크인</label>
-        <input type="text" placeholder="날짜 선택" id="searchCheckin" readonly/>
-      </div>
-      <div class="search-field">
-        <label>체크아웃</label>
-        <input type="text" placeholder="날짜 선택" id="searchCheckout" readonly/>
-      </div>
-      <div class="search-field">
-        <label>인원</label>
-        <select>
-          <option>2명</option>
-          <option>3명</option>
-          <option>4명</option>
-          <option>5~10명</option>
-          <option>10명 이상</option>
-        </select>
-      </div>
-      <div class="search-field">
-        <label>객실 유형</label>
-        <select>
-          <option>전체</option>
-          <option>1인실</option>
-          <option>2인룸</option>
-          <option>패밀리룸</option>
-          <option>통대관</option>
-        </select>
-      </div>
-      <a href="reservation.html" class="btn btn-gold" style="flex-shrink:0">날짜 검색</a>
+  <!-- Hero CTA Buttons -->
+  <div class="wrap" style="position:relative;z-index:2;padding-bottom:24px">
+    <div class="fade-up" style="display:flex;gap:10px;flex-wrap:wrap;max-width:600px">
+      <a href="reservation.html" class="btn btn-gold btn-lg" style="flex:1;min-width:200px">
+        📅 예약하러 가기
+      </a>
+      <a href="#availability" class="btn btn-ghost btn-lg" style="flex:1;min-width:200px">
+        🗓 예약 가능 날짜 보기
+      </a>
     </div>
   </div>
 
@@ -130,6 +107,81 @@
     </div>
   </div>
 </header>
+
+<!-- ============================================================
+     AVAILABILITY — 예약 가능 현황 (메인의 검색바를 대체)
+     ============================================================ -->
+<section class="section" id="availability" style="background:var(--paper)">
+  <div class="wrap">
+    <div class="center" style="margin-bottom:32px">
+      <div class="eyebrow fade-up">AVAILABILITY</div>
+      <h2 class="section-title fade-up">예약 가능 현황</h2>
+      <p class="section-lead fade-up">한눈에 보는 객실별 잔여 상황과 이번 달 가용 날짜. 자세한 예약은 <strong style="color:var(--ink)">예약하기</strong> 버튼을 눌러주세요.</p>
+    </div>
+
+    <!-- 객실별 남은 자리 -->
+    <div class="fade-up" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px" id="availability-rooms">
+      <div style="background:var(--bg);border-radius:var(--r-md);border:1px solid var(--line-soft);padding:18px 16px;text-align:center">
+        <div style="font-size:11px;font-weight:900;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:10px">1인실</div>
+        <div style="font-size:22px;font-weight:900;letter-spacing:-.03em;color:var(--green);margin-bottom:4px">2석 남음</div>
+        <div style="font-size:11px;color:var(--muted)">총 2개 객실</div>
+        <div style="margin-top:10px;height:6px;background:var(--bg-deep);border-radius:99px;overflow:hidden">
+          <div style="height:100%;width:100%;background:var(--green)"></div>
+        </div>
+      </div>
+      <div style="background:var(--bg);border-radius:var(--r-md);border:1px solid var(--line-soft);padding:18px 16px;text-align:center">
+        <div style="font-size:11px;font-weight:900;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:10px">2인룸</div>
+        <div style="font-size:22px;font-weight:900;letter-spacing:-.03em;color:var(--gold);margin-bottom:4px">2석 남음</div>
+        <div style="font-size:11px;color:var(--muted)">총 3개 객실</div>
+        <div style="margin-top:10px;height:6px;background:var(--bg-deep);border-radius:99px;overflow:hidden">
+          <div style="height:100%;width:66%;background:var(--gold)"></div>
+        </div>
+      </div>
+      <div style="background:var(--bg);border-radius:var(--r-md);border:1px solid var(--line-soft);padding:18px 16px;text-align:center">
+        <div style="font-size:11px;font-weight:900;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:10px">패밀리룸</div>
+        <div style="font-size:22px;font-weight:900;letter-spacing:-.03em;color:var(--green);margin-bottom:4px">2석 남음</div>
+        <div style="font-size:11px;color:var(--muted)">총 2개 객실</div>
+        <div style="margin-top:10px;height:6px;background:var(--bg-deep);border-radius:99px;overflow:hidden">
+          <div style="height:100%;width:100%;background:var(--green)"></div>
+        </div>
+      </div>
+      <div style="background:var(--bg);border-radius:var(--r-md);border:1px solid var(--line-soft);padding:18px 16px;text-align:center">
+        <div style="font-size:11px;font-weight:900;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-bottom:10px">통대관</div>
+        <div style="font-size:22px;font-weight:900;letter-spacing:-.03em;color:var(--gold);margin-bottom:4px">상담 필요</div>
+        <div style="font-size:11px;color:var(--muted)">최대 40명</div>
+        <div style="margin-top:10px;height:6px;background:var(--bg-deep);border-radius:99px;overflow:hidden">
+          <div style="height:100%;width:50%;background:var(--gold)"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 캘린더 가용 현황 (Read-Only) -->
+    <div class="fade-up" style="background:var(--paper);border:1px solid var(--line-soft);border-radius:var(--r-xl);padding:clamp(20px,3vw,32px);box-shadow:var(--shadow-xs)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+        <h3 style="font-size:17px;font-weight:900;letter-spacing:-.03em">📅 이번 달 예약 현황</h3>
+        <div style="display:flex;gap:14px;font-size:12px;color:var(--muted);flex-wrap:wrap">
+          <span><span style="display:inline-block;width:10px;height:10px;background:#e8e1d5;border-radius:3px;margin-right:5px;vertical-align:middle"></span>예약 가능</span>
+          <span><span style="display:inline-block;width:10px;height:10px;background:var(--gold);border-radius:3px;margin-right:5px;vertical-align:middle"></span>일부 가능</span>
+          <span><span style="display:inline-block;width:10px;height:10px;background:#e74c3c;border-radius:3px;margin-right:5px;vertical-align:middle"></span>마감</span>
+        </div>
+      </div>
+
+      <div id="availabilityCalendar" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+        <!-- JS로 동적 생성 -->
+      </div>
+
+      <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line-soft);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <div style="font-size:13px;color:var(--muted)">
+          📞 더 자세한 확인은 카카오톡 또는 전화 문의<br/>
+          <span style="font-size:12px">날짜·인원·객실 상세 입력은 예약 페이지에서</span>
+        </div>
+        <a href="reservation.html" class="btn btn-gold btn-lg">
+          예약하러 가기 →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ============== ROOMS SECTION ============== -->
 <section class="section" id="rooms">
@@ -647,5 +699,87 @@
 </div>
 
 <script src="js/main.js"></script>
+<script>
+  // ============================================================
+  // 메인 페이지 — 예약 가능 현황 캘린더 (Read-Only)
+  // ============================================================
+  (function() {
+    const cal = document.getElementById('availabilityCalendar');
+    if (!cal) return;
+
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const monthName = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'][month];
+    const dayNames = ['일','월','화','수','목','금','토'];
+
+    // Fake availability data (실제 운영 시 API로 교체)
+    // 0: 가능, 1: 일부 가능, 2: 마감
+    const seed = (d) => (d * 7 + 3) % 11;
+    const getStatus = (day) => {
+      const d = new Date(year, month, day);
+      if (d < today) return -1; // 지난 날
+      const s = seed(day);
+      if (s < 5) return 0; // 가능
+      if (s < 9) return 1; // 일부 가능
+      return 2; // 마감
+    };
+
+    const colors = {
+      '-1': { bg: 'transparent', color: '#c8bfb6', label: '' },
+      '0':  { bg: '#e8e1d5',     color: '#241b15', label: '○' },
+      '1':  { bg: 'rgba(184,144,85,.25)', color: '#7a4f20', label: '△' },
+      '2':  { bg: 'rgba(231,76,60,.18)',  color: '#a93226', label: '✕' }
+    };
+
+    let html = '';
+
+    // 헤더 (요일)
+    dayNames.forEach((d, i) => {
+      const isWeekend = i === 0 || i === 6;
+      html += `<div style="text-align:center;font-size:11px;font-weight:900;color:${isWeekend ? '#c0392b' : 'var(--muted)'};padding:8px 0">${d}</div>`;
+    });
+
+    // 빈칸 (월 시작 전)
+    for (let i = 0; i < firstDay; i++) html += '<div></div>';
+
+    // 날짜 표시
+    for (let day = 1; day <= daysInMonth; day++) {
+      const status = getStatus(day);
+      const s = colors[status];
+      const isToday = day === today.getDate();
+      const isPast = status === -1;
+      const dayOfWeek = (firstDay + day - 1) % 7;
+      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+
+      html += `
+        <div style="aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+                    background:${s.bg};color:${s.color};border-radius:8px;
+                    ${isToday ? 'border:2px solid var(--gold);' : ''}
+                    ${isPast ? 'opacity:.4;' : ''}
+                    transition:transform .15s;cursor:${isPast ? 'default' : 'pointer'}"
+             ${!isPast && status !== 2 ? "onmouseover=\"this.style.transform='scale(1.05)'\" onmouseout=\"this.style.transform=''\" onclick=\"location.href='reservation.html'\"" : ''}
+             title="${isPast ? '지난 날짜' : (status === 0 ? '예약 가능' : status === 1 ? '일부 가능' : '마감')}">
+          <span style="font-size:13px;font-weight:700;${isWeekend && !isPast ? 'color:'+(status === 0 ? '#c0392b' : s.color) : ''}">${day}</span>
+          ${!isPast ? `<span style="font-size:10px;font-weight:800;line-height:1">${s.label}</span>` : ''}
+        </div>
+      `;
+    }
+
+    cal.innerHTML = html;
+
+    // 캘린더 영역 위쪽 헤더에 월 표시 (없으면 추가)
+    const calSection = cal.closest('div[style*="background:var(--paper)"]');
+    if (calSection) {
+      const titleEl = calSection.querySelector('h3');
+      if (titleEl && !titleEl.textContent.includes(monthName)) {
+        titleEl.innerHTML = `📅 ${year}년 ${monthName} 예약 현황`;
+      }
+    }
+  })();
+</script>
 </body>
 </html>

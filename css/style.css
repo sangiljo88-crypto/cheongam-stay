@@ -1429,6 +1429,20 @@ ul, ol { list-style: none; }
     gap: 14px !important;
   }
 
+  /* ===== Availability rooms (4열 → 2열) ===== */
+  #availability-rooms {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+  #availability-rooms > div { padding: 14px 12px !important; }
+  #availability-rooms > div > div[style*="font-size:22px"] {
+    font-size: 18px !important;
+  }
+
+  /* ===== Availability calendar 모바일 폰트 ===== */
+  #availabilityCalendar > div span { font-size: 11px !important; }
+  #availabilityCalendar > div span[style*="font-size:10px"] { font-size: 9px !important; }
+
   /* ===== Pricing 4-column → 1열 (강조 카드만 풀폭) ===== */
   [style*="grid-template-columns:repeat(4,1fr)"] {
     grid-template-columns: 1fr 1fr !important;
