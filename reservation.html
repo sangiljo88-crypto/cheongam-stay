@@ -639,30 +639,155 @@
     recalc();
   }, 500);
 
-  // Kakao inquiry builder
-  function sendKakaoInquiry() {
+  // ============================================================
+  // 카카오 예약 문의 — 모달창 + 클립보드 복사
+  // ============================================================
+  const KAKAO_URL = 'https://open.kakao.com/o/ghExKyui';
+
+  // 모달 DOM 생성 (페이지 로드 시 한 번만)
+  function ensureKakaoModal() {
+    if (document.getElementById('kakaoInquiryModal')) return;
+
+    const modal = document.createElement('div');
+    modal.id = 'kakaoInquiryModal';
+    modal.style.cssText = `
+      display:none; position:fixed; inset:0; z-index:300;
+      background:rgba(23,19,15,.55); backdrop-filter:blur(3px);
+      align-items:center; justify-content:center; padding:20px;
+    `;
+
+    modal.innerHTML = `
+      <div style="background:#fffaf1;border-radius:24px;max-width:520px;width:100%;
+                  box-shadow:0 24px 80px rgba(0,0,0,.3);overflow:hidden;
+                  max-height:90vh;display:flex;flex-direction:column">
+
+        <!-- Header -->
+        <div style="padding:24px 28px 0;position:relative">
+          <button id="kkmClose" style="position:absolute;top:18px;right:20px;
+                  background:none;border:none;font-size:22px;cursor:pointer;color:#756a5f;line-height:1">✕</button>
+          <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+                      color:#b89055;font-weight:900;margin-bottom:8px">예약 문의</div>
+          <h3 style="font-size:20px;font-weight:900;letter-spacing:-.04em;margin:0 0 6px">
+            카카오톡으로 예약 문의하기
+          </h3>
+          <p style="font-size:13px;color:#756a5f;margin:0;line-height:1.6">
+            카카오 오픈채팅은 자동 입력이 안 돼요.<br/>
+            아래 내용을 <strong style="color:#241b15">복사 후 채팅방에 붙여넣기</strong> 해주세요.
+          </p>
+        </div>
+
+        <!-- Message preview -->
+        <div style="padding:20px 28px;flex:1;overflow-y:auto">
+          <div style="background:#f6f0e6;border-radius:14px;padding:18px 20px;
+                      font-family:'Apple SD Gothic Neo',-apple-system,sans-serif;
+                      font-size:13px;line-height:1.75;color:#241b15;white-space:pre-line"
+               id="kkmPreview"></div>
+          <div id="kkmCopiedToast" style="display:none;margin-top:10px;padding:10px 14px;
+                      background:rgba(47,74,52,.12);border:1px solid rgba(47,74,52,.25);
+                      border-radius:10px;color:#2f4a34;font-size:13px;font-weight:700;text-align:center">
+            ✓ 복사 완료! 채팅방에 붙여넣기 해주세요.
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div style="padding:0 28px 24px;display:flex;flex-direction:column;gap:10px">
+          <button id="kkmCopy" style="height:50px;background:#241b15;color:#fff;
+                  border:none;border-radius:999px;font-size:14px;font-weight:800;cursor:pointer;
+                  display:flex;align-items:center;justify-content:center;gap:8px">
+            📋 예약 내용 복사하기
+          </button>
+          <button id="kkmCopyAndOpen" style="height:54px;background:#FEE500;color:#181600;
+                  border:none;border-radius:999px;font-size:15px;font-weight:900;cursor:pointer;
+                  display:flex;align-items:center;justify-content:center;gap:8px">
+            💬 복사하고 카카오 채팅 열기
+          </button>
+          <p style="font-size:11px;color:#9b9085;margin:0;text-align:center;line-height:1.5">
+            채팅방 입장 후 <strong style="color:#241b15">Cmd+V</strong> (Mac) / <strong style="color:#241b15">Ctrl+V</strong> (Windows) 또는 길게 눌러 붙여넣기
+          </p>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // 이벤트
+    document.getElementById('kkmClose').addEventListener('click', closeKakaoModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeKakaoModal(); });
+    document.getElementById('kkmCopy').addEventListener('click', () => copyMsg(false));
+    document.getElementById('kkmCopyAndOpen').addEventListener('click', () => copyMsg(true));
+  }
+
+  function buildMessage() {
     const ci  = document.getElementById('bookCheckIn').textContent;
     const co  = document.getElementById('bookCheckOut').textContent;
     const ni  = document.getElementById('bookNights').textContent;
     const rm  = roomData[selectedRoom]?.name || '미선택';
     const pk  = document.getElementById('bookRoomMeta').textContent;
     const gst = document.getElementById('bookGuests').textContent;
+    const tot = document.getElementById('bookTotal').textContent;
     const nm  = document.getElementById('reqName')?.value || '';
     const ph  = document.getElementById('reqPhone')?.value || '';
     const nt  = document.getElementById('reqNote')?.value || '';
 
-    const msg = encodeURIComponent(
-      `[청암스테이 예약 문의]\n` +
-      `체크인: ${ci}\n체크아웃: ${co} (${ni})\n` +
-      `객실: ${rm}\n패키지: ${pk}\n인원: ${gst}\n` +
-      (nm ? `이름: ${nm}\n` : '') +
-      (ph ? `연락처: ${ph}\n` : '') +
-      (nt ? `요청사항: ${nt}\n` : '') +
-      `\n* 위 내용을 확인 후 예약 가능 여부를 안내드리겠습니다.`
-    );
+    return `🏡 청암스테이 예약 문의
 
-    // 카카오 채널 오픈채팅 — 실제 URL로 교체 필요
-    window.open(`https://open.kakao.com/o/ghExKyui`, '_blank', 'noopener');
+📅 체크인: ${ci}
+📅 체크아웃: ${co}${ni && ni !== '— 박' ? ' (' + ni + ')' : ''}
+
+🛏 객실: ${rm}
+🥩 패키지: ${pk}
+👥 인원: ${gst}
+💰 예상 숙박 금액: ${tot}
+` +
+(nm || ph ? `\n👤 예약자\n` + (nm ? `· 이름: ${nm}\n` : '') + (ph ? `· 연락처: ${ph}\n` : '') : '') +
+(nt ? `\n📝 요청사항\n${nt}\n` : '') +
+`\n위 내용 확인 후 예약 가능 여부 안내 부탁드립니다 🙏`;
+  }
+
+  function copyMsg(openKakao) {
+    const msg = buildMessage();
+
+    // 클립보드 복사
+    const doCopy = navigator.clipboard
+      ? navigator.clipboard.writeText(msg)
+      : new Promise((resolve, reject) => {
+          const ta = document.createElement('textarea');
+          ta.value = msg;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); document.body.removeChild(ta); resolve(); }
+          catch (e) { document.body.removeChild(ta); reject(e); }
+        });
+
+    doCopy.then(() => {
+      const toast = document.getElementById('kkmCopiedToast');
+      if (toast) {
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 3000);
+      }
+      if (openKakao) {
+        setTimeout(() => {
+          window.open(KAKAO_URL, '_blank', 'noopener');
+        }, 400);
+      }
+    }).catch(() => {
+      alert('복사에 실패했어요. 메시지를 직접 선택해 복사해주세요.');
+    });
+  }
+
+  function closeKakaoModal() {
+    const m = document.getElementById('kakaoInquiryModal');
+    if (m) { m.style.display = 'none'; document.body.style.overflow = ''; }
+  }
+
+  function sendKakaoInquiry() {
+    ensureKakaoModal();
+    const m = document.getElementById('kakaoInquiryModal');
+    document.getElementById('kkmPreview').textContent = buildMessage();
+    m.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
   }
 </script>
 </body>
